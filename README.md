@@ -1,16 +1,40 @@
 # flutter_table_calendar
 
-A new Flutter project.
+<img width="300" alt="image" src="https://github.com/YamamotoDesu/flutter_table_calendar/assets/47273077/06c5c7d1-9655-4705-a21d-37250b973e2e">
 
-## Getting Started
+```dart
+class DateandTimePicker extends StatefulWidget {
+  const DateandTimePicker({super.key});
 
-This project is a starting point for a Flutter application.
+  @override
+  State<DateandTimePicker> createState() => _DateandTimePickerState();
+}
 
-A few resources to get you started if this is your first Flutter project:
+class _DateandTimePickerState extends State<DateandTimePicker> {
+  DateTime today = DateTime.now();
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    setState(() {
+      today = selectedDay;
+    });
+  }
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: TableCalendar(
+          rowHeight: 35,
+          focusedDay: today,
+          onDaySelected: _onDaySelected,
+          availableGestures: AvailableGestures.all,
+          selectedDayPredicate: (day) => isSameDay(today, day),
+          headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
+          firstDay: DateTime.utc(2010, 10, 16),
+          lastDay: DateTime.utc(2030, 3, 14)
+        ),
+      )
+    );
+  }
+}
+```
