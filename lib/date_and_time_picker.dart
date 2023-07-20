@@ -10,13 +10,25 @@ class DateandTimePicker extends StatefulWidget {
 }
 
 class _DateandTimePickerState extends State<DateandTimePicker> {
-  DateTime focusedDay = DateTime.now();
+  DateTime today = DateTime.now();
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    setState(() {
+      today = selectedDay;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         child: TableCalendar(
-          focusedDay: focusedDay,
+          rowHeight: 35,
+          focusedDay: today,
+          onDaySelected: _onDaySelected,
+          availableGestures: AvailableGestures.all,
+          selectedDayPredicate: (day) => isSameDay(today, day),
+          headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 3, 14)
         ),
